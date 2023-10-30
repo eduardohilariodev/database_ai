@@ -1,4 +1,4 @@
 langchain
 openai
 python-environ
-mysql-connector-python
+pymysql
