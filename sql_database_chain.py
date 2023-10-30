@@ -50,6 +50,12 @@ You'll only use the following tables on your reasoning: {matching_tables_str}
 The column `tempo_id` is the foreign key to the table `bi_dimensao_tempo_diario`.
 Return JSON in a single-line without whitespaces
 The final answer MUST be in Brazilian Portuguese
+Infer the suffix from the context if there's a final value as an answer
+If it's a data, use the format DD de MM de AAAA (e.g. 18 de Novembro de 2021)
+If it's a number, use the format 1.000,00 (e.g. 1.000,00)
+If it's a percentage, use the format 1.000,00% (e.g. 1.000,00%)
+If it's a currency, use the format R$ 1.000,00 (e.g. R$ 1.000,00)
+If it isn't clear what the suffix is, infer from the queries made.
 BEGIN!
 """
 
