@@ -32,6 +32,7 @@ if connection:
     ]
 
     matching_tables = get_matching_tables(intended_tables)
+    matching_tables_str = ", ".join(matching_tables)
     if matching_tables:
         print(f"Using tables: {', '.join(matching_tables)}")
     error_tables = get_error_tables(intended_tables)
@@ -45,6 +46,7 @@ SQLQuery: [SQL query to run]
 SQLResult: [result of the SQLQuery]
 Answer: [final answer here]
 {question}
+You'll only use the following tables on your reasoning: {matching_tables_str}
 Return JSON in a single-line without whitespaces
 """
 
@@ -54,11 +56,13 @@ question = "Qual foi a quantidade de ressuprimento no dia 2021-11-18?"
 
 
 def get_suggested_tables(question):
-    template = f"Given the question '{question}', which tables are most likely to have the answer to the question?"
-    prompt = PromptTemplate.from_template(template)
-    runnable = prompt | llm | output_parser
-    result = runnable.invoke(question)
-    print(result)
+    try:
+        question = QUERY.format(
+            matching_tables_str=matching_tables_str, question=question
+        )
+        print(db_chain.run(question))
+    except Exception as e:
+        print(f"Exception: {e}")
 
 
 get_suggested_tables(question)
