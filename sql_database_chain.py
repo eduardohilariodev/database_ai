@@ -47,6 +47,7 @@ SQLResult: [result of the SQLQuery]
 Answer: [final answer here]
 {question}
 You'll only use the following tables on your reasoning: {matching_tables_str}
+The column `tempo_id` is the foreign key to the table `bi_dimensao_tempo_diario`.
 Return JSON in a single-line without whitespaces
 The final answer MUST be in Brazilian Portuguese
 BEGIN!
@@ -54,7 +55,7 @@ BEGIN!
 
 db_chain = SQLDatabaseSequentialChain.from_llm(llm=llm, db=db, verbose=True)
 output_parser = StrOutputParser()
-question = "Qual foi a quantidade de ressuprimento no dia 2021-11-18?"
+question = "Qual a quantidade total de ressuprimento realizada no dia 2021-11-18, para as materias primas 59, 384, 536?"
 
 
 def get_suggested_tables(question):
