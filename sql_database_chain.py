@@ -3,7 +3,7 @@ import environ
 from langchain.schema import StrOutputParser
 from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
-from langchain_experimental.sql import SQLDatabaseChain
+from langchain_experimental.sql.base import SQLDatabaseSequentialChain
 from utils.mysql_db import (
     connect_to_database,
     get_matching_tables,
@@ -48,9 +48,11 @@ Answer: [final answer here]
 {question}
 You'll only use the following tables on your reasoning: {matching_tables_str}
 Return JSON in a single-line without whitespaces
+The final answer MUST be in Brazilian Portuguese
+BEGIN!
 """
 
-db_chain = SQLDatabaseChain.from_llm(llm=llm, db=db, verbose=True)
+db_chain = SQLDatabaseSequentialChain.from_llm(llm=llm, db=db, verbose=True)
 output_parser = StrOutputParser()
 question = "Qual foi a quantidade de ressuprimento no dia 2021-11-18?"
 
