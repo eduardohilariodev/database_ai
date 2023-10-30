@@ -16,5 +16,6 @@ prompt = PromptTemplate.from_template(
 )
 output_parser = StrOutputParser()
 runnable = prompt | llm | output_parser
-result = runnable.invoke({"language": "python", "n": 5})
+variable_dictionary = {"language": "python", "n": 5}
+result = runnable.invoke(variable_dictionary)
 print(result)
